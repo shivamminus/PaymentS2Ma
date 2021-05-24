@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.payment.main.dto.PaymentDAO;
 import com.payment.main.exception.InvalidTokenException;
 import com.payment.main.feignService.AuthClient;
 import com.payment.main.service.PaymentService;
+import com.payment.main.util.Utilities;
 
 import feign.FeignException;
 
@@ -25,9 +27,9 @@ public class PaymentController {
 	@Autowired
 	private AuthClient authClient;
 
-	@PostMapping(path = "/processpayment/{requestId}/{cardNumber}/{creditLimit}/{processingCharge}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<PaymentDAO> paymentDetails(@PathVariable String requestId, @PathVariable int cardNumber,
-			@PathVariable int creditLimit, @PathVariable int processingCharge,
+	@GetMapping(path = "/processpayment", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PaymentDAO> paymentDetails(@RequestParam String cardNumber,
+			@RequestParam int creditLimit, @RequestParam int processingCharge,
 			@RequestHeader(name = "Authorization", required = true) String token) throws InvalidTokenException {
 
 		try {
@@ -43,12 +45,12 @@ public class PaymentController {
 
 		try {
 			return new ResponseEntity<>(
-					paymentServiceImpl.processPaymentService(requestId, cardNumber, creditLimit, processingCharge),
+					paymentServiceImpl.processPaymentService(cardNumber, creditLimit, processingCharge),
 					HttpStatus.OK);
 
 		} catch (Exception e) {
 			return new ResponseEntity<>(
-					paymentServiceImpl.processPaymentService(requestId, cardNumber, creditLimit, processingCharge),
+					paymentServiceImpl.processPaymentService(cardNumber, creditLimit, processingCharge),
 					HttpStatus.FORBIDDEN);
 
 		}

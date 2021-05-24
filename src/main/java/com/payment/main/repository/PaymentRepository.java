@@ -4,7 +4,6 @@ import com.payment.main.dto.PaymentDAO;
 
 public interface PaymentRepository  {
 	
-	public PaymentDAO processPaymentService(String RequestId, Integer cardNumber, Integer creditLimit,
-			Integer processingCharge);
+	public PaymentDAO processPaymentService(String cardNumber, int creditLimit, int processingCharge);
 
 }

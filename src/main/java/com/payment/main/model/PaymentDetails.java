@@ -8,12 +8,8 @@ import javax.persistence.Id;
 public class PaymentDetails {
 
 	@Id
-	private int id;
-	@Column(nullable = false, unique = true)
-	private String requestId;
-
 	@Column(unique = true, nullable = false)
-	private Integer cardNumber;
+	private String cardNumber;
 	private int creditLimit;
 	private int processingCharge;
 
@@ -21,27 +17,18 @@ public class PaymentDetails {
 		super();
 	}
 
-	public PaymentDetails(String requestId, Integer cardNumber, int creditLimit, int processingCharge) {
+	public PaymentDetails(String cardNumber, int creditLimit, int processingCharge) {
 		super();
-		this.requestId = requestId;
 		this.cardNumber = cardNumber;
 		this.creditLimit = creditLimit;
 		this.processingCharge = processingCharge;
 	}
 
-	public String getRequestId() {
-		return requestId;
-	}
-
-	public void setRequestId(String requestId) {
-		this.requestId = requestId;
-	}
-
-	public Integer getCardNumber() {
+	public String getCardNumber() {
 		return cardNumber;
 	}
 
-	public void setCardNumber(Integer cardNumber) {
+	public void setCardNumber(String cardNumber) {
 		this.cardNumber = cardNumber;
 	}
 
@@ -59,12 +46,6 @@ public class PaymentDetails {
 
 	public void setProcessingCharge(int processingCharge) {
 		this.processingCharge = processingCharge;
-	}
-
-	@Override
-	public String toString() {
-		return "PaymentDetails [requestId=" + requestId + ", cardNumber=" + cardNumber + ", creditLimit=" + creditLimit
-				+ ", processingCharge=" + processingCharge + "]";
 	}
 
 }
