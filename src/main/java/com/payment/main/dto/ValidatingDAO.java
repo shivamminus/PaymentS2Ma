@@ -1,5 +1,9 @@
 package com.payment.main.dto;
 
+//ValidatingDTO Example
+//{
+//	validStatus:false
+//}
 public class ValidatingDAO {
 
 	private boolean validStatus;

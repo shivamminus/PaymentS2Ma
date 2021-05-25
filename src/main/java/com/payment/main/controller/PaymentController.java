@@ -18,7 +18,7 @@ import com.payment.main.service.PaymentService;
 import com.payment.main.util.Utilities;
 
 import feign.FeignException;
-
+ 
 @RestController
 public class PaymentController {
 
@@ -27,6 +27,12 @@ public class PaymentController {
 	@Autowired
 	private AuthClient authClient;
 
+	//This Function will process the payment
+	// @params String cardNumber
+	// @params int creditLimit
+	// @params int processingCharge
+	
+	// @return PaymentDAO obj
 	@GetMapping(path = "/processpayment", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PaymentDAO> paymentDetails(@RequestParam String cardNumber,
 			@RequestParam int creditLimit, @RequestParam int processingCharge,
@@ -57,7 +63,8 @@ public class PaymentController {
 
 	}
 
-	@GetMapping(path = "/health-check")
+	// Test Microservice connection
+	@GetMapping(path = "/check-connection")
 	public ResponseEntity<String> healthCheck() {
 		return new ResponseEntity<>("OK", HttpStatus.OK);
 	}
