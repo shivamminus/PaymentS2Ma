@@ -2,7 +2,7 @@ package com.payment.main.service;
 
 import org.springframework.stereotype.Service;
 
-import com.payment.main.dto.PaymentDAO;
+import com.payment.main.dao.PaymentDAO;
 import com.payment.main.exception.CreditCardLimitExceed;
 import com.payment.main.exception.InvalidCreditCardNumber;
 import com.payment.main.exception.InvalidFormatException;
@@ -25,14 +25,14 @@ public class PaymentService implements PaymentRepository {
 			throw new InvalidCreditCardNumber("Please Check Credit Card Detail");
 		}
 
-		
+		if (processed_amount <= 0) {
+			throw new CreditCardLimitExceed("Your Card Limit Amount exceeded");
+		}
 		try {
-			if (processed_amount <= 0) {
-				throw new CreditCardLimitExceed("Your Card Limit Amount exceeded");
-			}
+			
 			paymentDetails.setCardNumber(cardNumber);
 			// handle negative balance condition
-			paymentDetails.setCreditLimit(creditLimit - processingCharge);
+			paymentDetails.setCreditLimit(processed_amount);
 			paymentDetails.setProcessingCharge(processingCharge);
 
 		} catch (Exception wrongInputException) {

@@ -1,6 +1,6 @@
 package com.payment.main.repository;
 
-import com.payment.main.dto.PaymentDAO;
+import com.payment.main.dao.PaymentDAO;
 
 public interface PaymentRepository  {
 	

@@ -1,4 +1,4 @@
-package com.payment.main.dto;
+package com.payment.main.dao;
 
 public class ValidatingDAO {
 

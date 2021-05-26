@@ -4,9 +4,9 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-import com.payment.main.dto.ValidatingDAO;
+import com.payment.main.dao.ValidatingDAO;
 
-@FeignClient(name = "auth-client", url = "http://localhost:8081")
+@FeignClient(name = "AUTH-SERVICE", url = "http://localhost:9090/auth")
 public interface AuthClient {
 
 	@GetMapping(value = "/validate")
