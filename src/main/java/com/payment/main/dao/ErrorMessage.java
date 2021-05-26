@@ -1,7 +1,15 @@
-package com.payment.main.model;
+package com.payment.main.dao;
 
 import java.util.Date;
 
+
+/*Error model Example
+{
+	statusCode:500,
+	timestamp: "Tue May 25 17:37:21 UTC 2021",
+	message: "Something went wrong"
+}
+*/
 public class ErrorMessage {
   private int statusCode;
   private Date timestamp;

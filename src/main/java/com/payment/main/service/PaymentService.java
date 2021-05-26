@@ -13,6 +13,18 @@ import com.payment.main.util.Utilities;
 @Service
 public class PaymentService implements PaymentRepository {
 
+	/*
+	 * This Function will process the payment
+	 * 
+	 * @params String cardNumber
+	 * 
+	 * @params int creditLimit
+	 * 
+	 * @params int processingCharge
+	 * 
+	 * @return PaymentDAO obj
+	 * 
+	 */
 	@Override
 	public PaymentDAO processPaymentService(String cardNumber, int creditLimit, int processingCharge)
 			throws InvalidFormatException {

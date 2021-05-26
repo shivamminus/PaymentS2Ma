@@ -1,5 +1,10 @@
 package com.payment.main.dao;
 
+/*ValidatingDTO Example
+{
+	validStatus:false
+}*/
+
 public class ValidatingDAO {
 
 	private boolean validStatus;

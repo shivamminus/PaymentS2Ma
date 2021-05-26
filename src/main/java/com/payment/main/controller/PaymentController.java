@@ -5,20 +5,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.payment.main.client.AuthClient;
 import com.payment.main.dao.PaymentDAO;
 import com.payment.main.exception.InvalidTokenException;
-import com.payment.main.feignService.AuthClient;
+import com.payment.main.exception.SomethingWentWrong;
 import com.payment.main.service.PaymentService;
-import com.payment.main.util.Utilities;
-
-import feign.FeignException;
 
 @RestController
 @RequestMapping(value = "/payment")
@@ -29,20 +25,26 @@ public class PaymentController {
 	@Autowired
 	private AuthClient authClient;
 
+	/*
+	 * This Function will process the payment
+	 * 
+	 * @params String cardNumber
+	 * 
+	 * @params int creditLimit
+	 * 
+	 * @params int processingCharge
+	 * 
+	 * @return PaymentDAO obj
+	 * 
+	 */		
 	@GetMapping(path = "/processpayment", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PaymentDAO> paymentDetails(@RequestParam String cardNumber,
 			@RequestParam int creditLimit, @RequestParam int processingCharge,
 			@RequestHeader(name = "Authorization", required = true) String token) throws InvalidTokenException {
 
-		try {
-			if (!authClient.getsValidity(token).isValidStatus()) {
+		if (!authClient.getsValidity(token).isValidStatus()) {
 
-				throw new InvalidTokenException("Token is either expired or invalid...");
-			}
-
-		} catch (FeignException e) {
 			throw new InvalidTokenException("Token is either expired or invalid...");
-
 		}
 
 		try {
@@ -50,16 +52,17 @@ public class PaymentController {
 					paymentServiceImpl.processPaymentService(cardNumber, creditLimit, processingCharge),
 					HttpStatus.OK);
 
-		} catch (Exception e) {
-			return new ResponseEntity<>(
-					paymentServiceImpl.processPaymentService(cardNumber, creditLimit, processingCharge),
-					HttpStatus.FORBIDDEN);
+		} catch (Exception serverError) {
+			throw new SomethingWentWrong("Sorry Something went wrong, try again later");
+//			return new ResponseEntity<>(
+//					paymentServiceImpl.processPaymentService(cardNumber, creditLimit, processingCharge),
+//					HttpStatus.FORBIDDEN);
 
 		}
 
 	}
 
-	@GetMapping(path = "/health-check")
+	@GetMapping(path = "/connection-check")
 	public ResponseEntity<String> healthCheck() {
 		return new ResponseEntity<>("OK", HttpStatus.OK);
 	}
