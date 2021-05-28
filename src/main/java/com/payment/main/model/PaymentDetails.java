@@ -1,14 +1,9 @@
 package com.payment.main.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-@Entity
 public class PaymentDetails {
+	
+	private int requestId;
 
-	@Id
-	@Column(unique = true, nullable = false)
 	private String cardNumber;
 	private int creditLimit;
 	private int processingCharge;
@@ -17,12 +12,22 @@ public class PaymentDetails {
 		super();
 	}
 
-	public PaymentDetails(String cardNumber, int creditLimit, int processingCharge) {
+	public PaymentDetails(int requestId, String cardNumber, int creditLimit, int processingCharge) {
 		super();
+		this.requestId = requestId;
 		this.cardNumber = cardNumber;
 		this.creditLimit = creditLimit;
 		this.processingCharge = processingCharge;
 	}
+	
+	public int getRequestId() {
+		return requestId;
+	}
+
+	public void setRequestId(int requestId) {
+		this.requestId = requestId;
+	}
+
 
 	public String getCardNumber() {
 		return cardNumber;

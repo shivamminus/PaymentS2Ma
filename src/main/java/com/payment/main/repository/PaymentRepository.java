@@ -15,6 +15,7 @@ public interface PaymentRepository  {
 	 * @return PaymentDAO obj
 	 * 
 	 */
-	public PaymentDAO processPaymentService(String cardNumber, int creditLimit, int processingCharge);
+	public PaymentDAO processPaymentService(String requestId, String cardNumber, int creditLimit, int processingCharge);
+	
 
 }

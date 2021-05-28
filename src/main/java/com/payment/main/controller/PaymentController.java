@@ -38,7 +38,7 @@ public class PaymentController {
 	 * 
 	 */		
 	@GetMapping(path = "/processpayment", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<PaymentDAO> paymentDetails(@RequestParam String cardNumber,
+	public ResponseEntity<PaymentDAO> paymentDetails(@RequestParam String requestId, @RequestParam String cardNumber,
 			@RequestParam int creditLimit, @RequestParam int processingCharge,
 			@RequestHeader(name = "Authorization", required = true) String token) throws InvalidTokenException {
 
@@ -49,10 +49,11 @@ public class PaymentController {
 
 		try {
 			return new ResponseEntity<>(
-					paymentServiceImpl.processPaymentService(cardNumber, creditLimit, processingCharge),
+					paymentServiceImpl.processPaymentService(requestId, cardNumber, creditLimit, processingCharge),
 					HttpStatus.OK);
 
 		} catch (Exception serverError) {
+			System.out.println(serverError.getMessage());
 			throw new SomethingWentWrong("Sorry Something went wrong, try again later");
 //			return new ResponseEntity<>(
 //					paymentServiceImpl.processPaymentService(cardNumber, creditLimit, processingCharge),
