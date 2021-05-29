@@ -1,5 +1,7 @@
 package com.payment.main.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.payment.main.PaymentS2Ma1Application;
 import com.payment.main.client.AuthClient;
 import com.payment.main.dao.PaymentDAO;
 import com.payment.main.exception.InvalidTokenException;
@@ -19,6 +22,8 @@ import com.payment.main.service.PaymentService;
 @RestController
 @RequestMapping(value = "/payment")
 public class PaymentController {
+	
+	private static Logger logger = LoggerFactory.getLogger(PaymentS2Ma1Application.class);
 
 	@Autowired
 	private PaymentService paymentServiceImpl;
@@ -53,7 +58,7 @@ public class PaymentController {
 					HttpStatus.OK);
 
 		} catch (Exception serverError) {
-			System.out.println(serverError.getMessage());
+			logger.error(serverError.getMessage());
 			throw new SomethingWentWrong("Sorry Something went wrong, try again later");
 //			return new ResponseEntity<>(
 //					paymentServiceImpl.processPaymentService(cardNumber, creditLimit, processingCharge),
@@ -65,6 +70,7 @@ public class PaymentController {
 
 	@GetMapping(path = "/connection-check")
 	public ResponseEntity<String> healthCheck() {
+		logger.info("HEALTH OK");
 		return new ResponseEntity<>("OK", HttpStatus.OK);
 	}
 

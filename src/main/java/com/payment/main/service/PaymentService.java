@@ -1,8 +1,11 @@
 package com.payment.main.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.payment.main.PaymentS2Ma1Application;
 import com.payment.main.dao.PaymentDAO;
 import com.payment.main.exception.CreditCardLimitExceed;
 import com.payment.main.exception.InvalidCreditCardNumber;
@@ -15,6 +18,9 @@ import com.payment.main.util.Utilities;
 
 @Service
 public class PaymentService implements PaymentRepository {
+	
+	
+	private static Logger logger = LoggerFactory.getLogger(PaymentS2Ma1Application.class);
 
 	/*
 	 * This Function will process the payment
@@ -46,12 +52,14 @@ public class PaymentService implements PaymentRepository {
 		if (!util.validateCreditCard(cardNumber)) {
 			processDetailStaus.setPaymentStatus("failed");
 			processPaymentRepo.save(processDetailStaus);
+			logger.warn("Please Check Credit Card Detail");
 			throw new InvalidCreditCardNumber("Please Check Credit Card Detail");
 		}
 
 		if (processed_amount <= 0) {
 			processDetailStaus.setPaymentStatus("failed");
 			processPaymentRepo.save(processDetailStaus);
+			logger.warn("Your Card Limit Amount exceeded");
 			throw new CreditCardLimitExceed("Your Card Limit Amount exceeded");
 		}
 
@@ -63,9 +71,11 @@ public class PaymentService implements PaymentRepository {
 			paymentDetails.setProcessingCharge(processingCharge);
 			processDetailStaus.setPaymentStatus("success");
 			processPaymentRepo.save(processDetailStaus);
+			logger.info("Process Detail saved Successfully");
 
 		} catch (Exception wrongInputException) {
 			processPaymentRepo.save(processDetailStaus);
+			logger.error("Wrong type of the input provided...");
 			throw new InvalidFormatException(
 					"Wrong type of the input provided...\n" + wrongInputException.getMessage());
 		}

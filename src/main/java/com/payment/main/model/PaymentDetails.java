@@ -2,7 +2,7 @@ package com.payment.main.model;
 
 public class PaymentDetails {
 	
-	private int requestId;
+	private String requestId;
 
 	private String cardNumber;
 	private int creditLimit;
@@ -12,7 +12,7 @@ public class PaymentDetails {
 		super();
 	}
 
-	public PaymentDetails(int requestId, String cardNumber, int creditLimit, int processingCharge) {
+	public PaymentDetails(String requestId, String cardNumber, int creditLimit, int processingCharge) {
 		super();
 		this.requestId = requestId;
 		this.cardNumber = cardNumber;
@@ -20,11 +20,11 @@ public class PaymentDetails {
 		this.processingCharge = processingCharge;
 	}
 	
-	public int getRequestId() {
+	public String getRequestId() {
 		return requestId;
 	}
 
-	public void setRequestId(int requestId) {
+	public void setRequestId(String requestId) {
 		this.requestId = requestId;
 	}
 
