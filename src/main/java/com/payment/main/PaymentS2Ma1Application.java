@@ -19,7 +19,7 @@ public class PaymentS2Ma1Application {
 		
 		logger.info("Payment Application Started Succesfully");
 
-        System.setProperty("server.connection-timeout","120000");
+//        System.setProperty("server.connection-timeout","120000");
 		SpringApplication.run(PaymentS2Ma1Application.class, args);
 	}
 
