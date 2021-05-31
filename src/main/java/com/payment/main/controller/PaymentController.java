@@ -48,9 +48,9 @@ public class PaymentController {
 			@RequestHeader(name = "Authorization", required = true) String token) throws InvalidTokenException {
 
 		if (!authClient.getsValidity(token).isValidStatus()) {
-			return new ResponseEntity<>("Invalid Token",
-					HttpStatus.BAD_REQUEST);
-//			throw new InvalidTokenException("Token is either expired or invalid...");
+//			return new ResponseEntity<>("Invalid Token",
+//					HttpStatus.BAD_REQUEST);
+			throw new InvalidTokenException("Token is either expired or invalid...");
 		}
 
 		try {
@@ -60,9 +60,9 @@ public class PaymentController {
 
 		} catch (Exception serverError) {
 			logger.error(serverError.getMessage());
-//			throw new SomethingWentWrong("Sorry Something went wrong, try again later");
-			return new ResponseEntity<>("Sorry Something went wrong, try again later",
-					HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new SomethingWentWrong("Sorry Something went wrong, try again later");
+//			return new ResponseEntity<>("Sorry Something went wrong, try again later",
+//					HttpStatus.INTERNAL_SERVER_ERROR);
 
 		}
 
