@@ -68,10 +68,15 @@ public class PaymentControllerTest {
 	
 	@Test
 	void testProcessPaymentBadRequest() throws InvalidTokenException {
-		String token = "token";
-		when(authClient.getsValidity(token)).thenReturn(new ValidatingDAO(false));
-		when(paymentServiceImpl.processPaymentService("kaspdko-aokpoqq-iuhdq", "4012887898341881", 100000, 500)).thenReturn(new PaymentDAO(9500.0));
-		assertEquals(400, paymentController.paymentDetails("kaspdko-aokpoqq-iuhdq", "4012887898341881", 100000, 500, "token").getStatusCodeValue());
+		try {
+			
+			String token = "token";
+			when(authClient.getsValidity(token)).thenReturn(new ValidatingDAO(false));
+			when(paymentServiceImpl.processPaymentService("kaspdko-aokpoqq-iuhdq", "4012887898341881", 100000, 500)).thenReturn(new PaymentDAO(9500.0));
+		} catch (InvalidTokenException invalid) {
+			assertEquals(400, paymentController.paymentDetails("kaspdko-aokpoqq-iuhdq", "4012887898341881", 100000, 500, "token").getStatusCodeValue());
+			
+		}
 	}
 	
 
