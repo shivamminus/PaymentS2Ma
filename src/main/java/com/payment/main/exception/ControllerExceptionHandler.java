@@ -14,13 +14,22 @@ import com.payment.main.dao.PaymentDAO;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
-	@ExceptionHandler(value = { InvalidFormatException.class, InvalidTokenException.class,
+	@ExceptionHandler(value = { InvalidFormatException.class,
 			 InvalidCreditCardNumber.class })
 	public ResponseEntity<ErrorMessage> resourceNotFoundException(Exception ex, WebRequest request) {
 		final Date date = new Date();
 		ErrorMessage message = new ErrorMessage(500, date, ex.getMessage());
 
 		return new ResponseEntity<ErrorMessage>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	
+	@ExceptionHandler(value = { InvalidTokenException.class })
+	public ResponseEntity<ErrorMessage> invalidToken(Exception ex, WebRequest request) {
+		final Date date = new Date();
+		ErrorMessage message = new ErrorMessage(403, date, ex.getMessage());
+
+		return new ResponseEntity<ErrorMessage>(message, HttpStatus.UNAUTHORIZED);
 	}
 	
 	@ExceptionHandler(value = { CreditCardLimitExceed.class })
