@@ -34,28 +34,21 @@ public class PaymentControllerTest {
 	@Mock
 	PaymentService paymentServiceImpl;
 	
+	
+	/*
+	 * Test for Payment Controller is LOADING OR NOT
+	 */
 	@Test
     @DisplayName("Checking if [PaymentController] is loading or not.")
      void paymentControllerIsLoaded(){
         assertThat(paymentController).isNotNull();    
     }
 	
-	@Test
-    @DisplayName("Checking if [PaymentController] is loading or not.")
-     void paymentControllerIsLoadedFalse(){
-        assertThat(paymentController).isNotNull();    
-    }
+
 	
 	/*
-	 * @Test void testConnection() {
-	 * when(paymentController.healthCheck()).thenReturn(new ResponseEntity<>("OK",
-	 * HttpStatus.OK)); assertEquals("OK",
-	 * paymentController.healthCheck().getBody()); }
+	 * Test for Payment Controller : Process Payment
 	 */
-	
-	
-	
-	
 	@Test
 	void testProcessPayment() throws InvalidTokenException {
 		String token = "token";
@@ -65,9 +58,11 @@ public class PaymentControllerTest {
 	}
 	
 	
-	
+	/*
+	 * Test: Payment Controller for Unauthorized Request
+	 */
 	@Test
-	void testProcessPaymentBadRequest() throws InvalidTokenException {
+	void testProcessPaymentForbiddenRequest() throws InvalidTokenException {
 		try {
 			
 			String token = "token";
@@ -79,12 +74,12 @@ public class PaymentControllerTest {
 		}
 	}
 	
-
+	
 	/*
-	 * Test for FORBIDDEN completeProcessing
+	 * Test: Payment Controller for BAD REQUEST
 	 */
 	@Test
-	void testProcessPaymentForbiddenRequest() throws InvalidTokenException {
+	void testProcessPaymentBadRequest() throws InvalidTokenException {
 		String token = "token";
 		when(authClient.getsValidity(token)).thenReturn(new ValidatingDAO(true));
 		when(paymentServiceImpl.processPaymentService("kaspdko-aokpoqq-iuhdq", "4012887898341881", 100, 500000)).thenThrow(SomethingWentWrong.class);
