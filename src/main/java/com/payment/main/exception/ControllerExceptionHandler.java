@@ -50,5 +50,14 @@ public class ControllerExceptionHandler {
 		PaymentDAO paymentObj = new PaymentDAO(0.0);
 		return new ResponseEntity<PaymentDAO>(paymentObj, HttpStatus.OK);
 	}
+	
+	@ExceptionHandler(value = { Exception.class })
+	public ResponseEntity<?> allExceptions(Exception ex, WebRequest request) {
+
+		final Date date = new Date();
+		ErrorMessage message = new ErrorMessage(500, date, ex.getMessage());
+
+		return new ResponseEntity<ErrorMessage>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 
 }
